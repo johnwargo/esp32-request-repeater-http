@@ -1,27 +1,21 @@
 /*********************************************************
-* ESP32 Parrot Server
+* ESP32 Request Repeater
 * 
-* Web server running on the ESP32 that simply parrots 
-* backl the received request
+* ESP32 sketch that wakes up periodically and sends a 
+* HTTP request to a remote host. Why? 'cuz I wanted
+* to figure out how to do it.
 *
 * By John M. Wargo
 * https://johnwargo.com
 **********************************************************/
 
 #include <WiFi.h>
-#include <ESPmDNS.h>
-#include <WebServer.h>
 
 #include "config.h"
-
-WebServer server(80);
 
 // store the credentials in the project's constants.h file
 const char* ssid = WIFI_SSID;
 const char* password = WIFI_PASSWORD;
-
-TaskHandle_t Task0;
-TaskHandle_t Task1;
 
 void setup() {
 
