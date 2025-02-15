@@ -1,11 +1,6 @@
 # ESP32 Request Repeater
 
 
-
-
-
-
-
 ***
 
 If this code helps you, please consider buying me a coffee.

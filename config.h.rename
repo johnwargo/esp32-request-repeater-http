@@ -1,4 +1,5 @@
 #define WIFI_SSID ""
 #define WIFI_PASSWORD ""
 
-#define HOSTNAME "parrot"
+#define REMOTE_HOST ""
+#define SLEEP_DURATION 300000
