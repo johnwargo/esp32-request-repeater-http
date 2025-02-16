@@ -1,6 +1,6 @@
 # ESP32 Request Repeater (HTTP)
 
-A simple Arduino sketch for ESP32 that makes an HTTP requested to a supplied host then puts the device to sleep for a specified period before doing it again.
+A simple Arduino sketch for ESP32 that makes an HTTP requested to a supplied host then puts the device to sleep for a specified period before doing it again. Read a complete description of the code in [Putting an ESP32 Device to Sleep](https://johnwargo.com/posts/2025/esp32-sleep/).
 
 ## Background
 
