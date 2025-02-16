@@ -49,7 +49,7 @@ void setup() {
   if (restartCounter < 2) {
     Serial.println("Sketch started once");
   } else {
-    Serial.printf("Sketch restarted %d times", restartCounter);
+    Serial.printf("Sketch restarted %d times\n", restartCounter);
   }
   displayWakupReason();
 
@@ -71,18 +71,15 @@ bool connectToNetwork() {
   unsigned long connectionStart;
   int counter = 0;
 
-  Serial.print("\nConnecting to ");
-  Serial.println(ssid);
-
+  Serial.printf("\nConnecting to %s\n", ssid);
   connectionStart = millis();
-
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
     // How long have we been trying to connect to wi-fi?
     if (millis() - connectionStart > WIFI_CONNECT_LIMIT) {
-      Serial.println("\n\nUnable to connect to network, aborting");
+      Serial.println("\nUnable to connect to network, aborting");
       return false;
     }
     counter += 1;
@@ -93,15 +90,15 @@ bool connectToNetwork() {
   }
   Serial.println();
   Serial.println("WiFi connected");
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
+  Serial.printf("IP address: %s\n", WiFi.localIP());
+  // Serial.println();
   Serial.println();
   return true;
 }
 
 void callRemoteHost() {
-  Serial.print("Connecting to ");
-  Serial.println(REMOTE_HOST);
+  Serial.printf("Connecting to %s\n", REMOTE_HOST);
+  // Serial.println(REMOTE_HOST);
 
   http.begin(REMOTE_HOST);
   int httpCode = http.GET();
@@ -143,5 +140,5 @@ void displayWakupReason() {
     case ESP_SLEEP_WAKEUP_WIFI: msg = "WIFI (light sleep only)"; break;  // added for completeness
     default: msg = "Unknown (" + String(wakeupReason) + ")"; break;
   }
-  Serial.println("Wakeup Reason: " + msg);
+  Serial.printf("Wakeup Reason: %s", msg);
 }
