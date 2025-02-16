@@ -22,11 +22,11 @@ To configure the sketch, copy the repository's `config.h.rename` to `config.h` (
 
 | Config Setting         | Description |
 | ---------------------- | ----------- |
-| REMOTE_HOST            | The url for the system you want the sketch to trigger every time it runs. Add any query string paramaters you need as well (optional). |
-| SLEEP_DURATION_MINUTES | The duration the device sleeps between requests. <br/>**Note:** Because the sketch wakes up, makes the request, then shuts down so quickly, that I wasn't able to upload sketch updates to the device. To resolve this, I added a 30 second wait at the beginning of every wake period to give me time to upload sketch updates. Be sure to subtract this 30 seconds from the value you configure for this property. |
+| `REMOTE_HOST`            | The url for the system you want the sketch to trigger every time it runs. Add any query string paramaters you need as well (optional). |
+| `SLEEP_DURATION_MINUTES` | The duration the device sleeps between requests. <br/>**Note:** Because the sketch wakes up, makes the request, then shuts down so quickly, that I wasn't able to upload sketch updates to the device. To resolve this, I added a 30 second wait at the beginning of every wake period to give me time to upload sketch updates. Be sure to subtract this 30 seconds from the value you configure for this property. |
 | `WIFI_SSID`            | The Wi-Fi network name (SSID) you want the device running the sketch to connect to. |
 | `WIFI_PASSWORD`        | The password for the Wi-Fi network SSID specified in `WIFI_SSID` |
-| WIFI_CONNECT_LIMIT | Specifies how many milliseconds the sketch should wait before abandoning connecting to the Wi-Fi network. |
+| `WIFI_CONNECT_LIMIT` | Specifies how many milliseconds the sketch should wait before abandoning connecting to the Wi-Fi network. |
 
 Once you've populated the `config.h` file, save your changes then build and deploy the sketch to an ESP32 device.
 
