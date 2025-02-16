@@ -53,6 +53,7 @@ void loop() {
 
 bool connectToNetwork() {
   int counter = 0;
+  int limitCounter = 0;
 
   Serial.print("\nConnecting to ");
   Serial.println(ssid);
@@ -61,13 +62,14 @@ bool connectToNetwork() {
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
-    counter += 1;
+    limitCounter += 1;
     // Check the max counter, should we keep
     // trying to connect to Wi-Fi?
-    if (xcounter > WIFI_CONNECT_LIMIT) {
+    if (limitCounter > WIFI_CONNECT_LIMIT) {
       Serial.println("Unable to connect to network, aborting");
       return false;
     }
+    counter += 1;
     if (counter > 25) {
       counter = 0;
       Serial.println();
