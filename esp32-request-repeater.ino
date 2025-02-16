@@ -21,6 +21,7 @@
 // store the credentials in the project's config.h file
 const char* ssid = WIFI_SSID;
 const char* password = WIFI_PASSWORD;
+const long minutes2Microseconds = 60000000;
 
 HTTPClient http;
 
@@ -41,7 +42,7 @@ void setup() {
   }
 
   print_wakeup_reason();
-  esp_sleep_enable_timer_wakeup(SLEEP_DURATION);
+  esp_sleep_enable_timer_wakeup(SLEEP_DURATION_MINUTES * minutes2Microseconds);
   if (connectToNetwork()) callRemoteHost();
   esp_deep_sleep_start();
 }
@@ -63,7 +64,7 @@ bool connectToNetwork() {
     counter += 1;
     // Check the max counter, should we keep
     // trying to connect to Wi-Fi?
-    if (counter > WIFI_CONNECT_LIMIT) {
+    if (xcounter > WIFI_CONNECT_LIMIT) {
       Serial.println("Unable to connect to network, aborting");
       return false;
     }
