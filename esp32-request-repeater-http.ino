@@ -46,7 +46,7 @@ void setup() {
 
   restartCounter += 1;
   if (restartCounter > 1) Serial.printf("Sketch restarted %d times\n", restartCounter);
-  displayWakupReason();
+  displayWakeupReason();
 
   // Wait 30 seconds to provide some time to deploy updates to the sketch otherwise it will
   // disconnect as soon as its done and you won't be able to save updates to the device
@@ -109,7 +109,7 @@ void callRemoteHost() {
 }
 
 // docs: https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/sleep_modes.html#_CPPv418esp_sleep_source_t
-void displayWakupReason() {
+void displayWakeupReason() {
 
   esp_sleep_wakeup_cause_t wakeupReason;
   String msg;
