@@ -36,9 +36,9 @@ void setup() {
   Serial.println();
   Serial.println("**************************");
   Serial.println("* ESP32 Request Repeater *");
-  Serial.println("**************************\n");
+  Serial.println("**************************");
 
-// Check to make sure we have Wi-Fi credentials
+  // Check to make sure we have Wi-Fi credentials
   // before trying to use them
   if (String(ssid).isEmpty() || String(password).isEmpty()) {
     Serial.println("\nMissing Wi-Fi credentials");
@@ -52,7 +52,7 @@ void setup() {
     Serial.printf("Sketch restarted %d times", restartCounter);
   }
   displayWakupReason();
-  
+
   // Wait 30 seconds to provide some time to deploy updates to the sketch otherwise it will
   // disconnect as soon as its done and you won't be able to save updates to the device
   Serial.println("Waiting 30 seconds to allow for sketch uploads");
@@ -68,21 +68,21 @@ void loop() {
 }
 
 bool connectToNetwork() {
+  unsigned long connectionStart;
   int counter = 0;
-  int limitCounter = 0;
 
   Serial.print("\nConnecting to ");
   Serial.println(ssid);
+
+  connectionStart = millis();
 
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
-    limitCounter += 1;
-    // Check the max counter, should we keep
-    // trying to connect to Wi-Fi?
-    if (limitCounter > WIFI_CONNECT_LIMIT) {
-      Serial.println("Unable to connect to network, aborting");
+    // How long have we been trying to connect to wi-fi?
+    if (millis() - connectionStart > WIFI_CONNECT_LIMIT) {
+      Serial.println("\n\nUnable to connect to network, aborting");
       return false;
     }
     counter += 1;
@@ -137,7 +137,7 @@ void displayWakupReason() {
     case ESP_SLEEP_WAKEUP_UART: msg = "UART (light sleep only)"; break;  // added for completeness
     case ESP_SLEEP_WAKEUP_ULP: msg = "ULP program"; break;
     // means sketch started because a new version of the sketch was loaded or powered up not from sleep (fresh start)
-    case ESP_SLEEP_WAKEUP_UNDEFINED: msg = "(Deep Sleep) Not caused by exit from deep sleep."; break;
+    case ESP_SLEEP_WAKEUP_UNDEFINED: msg = "Not caused by exit from deep sleep"; break;
     // this one's in the docs, but not in the library apparently
     // case ESP_SLEEP_WAKEUP_VAD: msg = "Wakeup caused by VAD"; break;
     case ESP_SLEEP_WAKEUP_WIFI: msg = "WIFI (light sleep only)"; break;  // added for completeness
