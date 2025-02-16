@@ -36,23 +36,23 @@ void setup() {
   Serial.println();
   Serial.println("**************************");
   Serial.println("* ESP32 Request Repeater *");
-  Serial.println("**************************");
+  Serial.println("**************************\n");
 
-  restartCounter += 1;
-  if (restartCounter < 2) {
-    Serial.println("Sketch started once\n");
-  } else {
-    Serial.printf("Sketch restarted %d times\n", restartCounter);
-  }
-  displayWakupReason();
-
-  // Check to make sure we have Wi-Fi credentials
+// Check to make sure we have Wi-Fi credentials
   // before trying to use them
   if (String(ssid).isEmpty() || String(password).isEmpty()) {
     Serial.println("\nMissing Wi-Fi credentials");
     for (;;) {}
   }
 
+  restartCounter += 1;
+  if (restartCounter < 2) {
+    Serial.println("Sketch started once");
+  } else {
+    Serial.printf("Sketch restarted %d times", restartCounter);
+  }
+  displayWakupReason();
+  
   // Wait 30 seconds to provide some time to deploy updates to the sketch otherwise it will
   // disconnect as soon as its done and you won't be able to save updates to the device
   Serial.println("Waiting 30 seconds to allow for sketch uploads");
