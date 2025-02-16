@@ -14,7 +14,6 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include "esp_sleep.h"
-#include "esp_wifi.h"
 
 #include "config.h"
 
