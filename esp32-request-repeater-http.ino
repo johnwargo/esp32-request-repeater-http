@@ -46,11 +46,7 @@ void setup() {
   }
 
   restartCounter += 1;
-  if (restartCounter < 2) {
-    Serial.println("Sketch started once");
-  } else {
-    Serial.printf("Sketch restarted %d times\n", restartCounter);
-  }
+  if (restartCounter > 1) Serial.printf("Sketch restarted %d times\n", restartCounter);
   displayWakupReason();
 
   // Wait 30 seconds to provide some time to deploy updates to the sketch otherwise it will
@@ -89,10 +85,8 @@ bool connectToNetwork() {
     }
   }
   Serial.println();
-  Serial.println("WiFi connected");
-  Serial.printf("IP address: %s\n", WiFi.localIP());
-  // Serial.println();
-  Serial.println();
+  Serial.println("WiFi connected\nIP address: ");
+  Serial.println(WiFi.localIP());
   return true;
 }
 
@@ -140,5 +134,6 @@ void displayWakupReason() {
     case ESP_SLEEP_WAKEUP_WIFI: msg = "WIFI (light sleep only)"; break;  // added for completeness
     default: msg = "Unknown (" + String(wakeupReason) + ")"; break;
   }
-  Serial.printf("Wakeup Reason: %s", msg);
+  Serial.print("Wakeup Reason: ");
+  Serial.println(msg);
 }
