@@ -1,4 +1,4 @@
-# ESP32 Request Repeater
+# ESP32 Request Repeater (HTTP)
 
 
 ***
