@@ -41,16 +41,18 @@ void setup() {
     Serial.println("\nMissing Wi-Fi credentials");
     for (;;) {}
   }
+
+  print_wakeup_reason();
+  // set the sleep duration
+  esp_sleep_enable_timer_wakeup(SLEEP_DURATION);
 }
 
 void loop() {
-  connectToNetwork();
-  callRemoteHost();
-  gotoSleep();
-  // delay(10000);
+  if (connectToNetwork()) callRemoteHost();
+  esp_deep_sleep_start();
 }
 
-void connectToNetwork() {
+bool connectToNetwork() {
   int counter = 0;
 
   Serial.print("\nConnecting to ");
@@ -61,6 +63,13 @@ void connectToNetwork() {
     delay(500);
     Serial.print(".");
     counter += 1;
+
+    // Check the max counter
+    if (counter > WIFI_CONNECT_LIMIT) {
+      Serial.println("Unable to connect to network");
+      return false;
+    }
+    // update the monitor if we're still connecting
     if (counter > 25) {
       counter = 0;
       Serial.println();
@@ -71,6 +80,7 @@ void connectToNetwork() {
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
   Serial.println();
+  return true;
 }
 
 void callRemoteHost() {
@@ -93,12 +103,18 @@ void callRemoteHost() {
   http.end();
 }
 
-void gotoSleep() {
-  Serial.println("Going to sleep");
-  if (esp_sleep_enable_timer_wakeup(SLEEP_DURATION) == ESP_OK) {
-    if (esp_wifi_stop() == ESP_OK)
-      esp_deep_sleep_start();
-  } else {
-    Serial.println("Unable to set sleep timer wakeup");
+// From https://randomnerdtutorials.com/esp32-deep-sleep-arduino-ide-wake-up-sources/
+void print_wakeup_reason() {
+  esp_sleep_wakeup_cause_t wakeup_reason;
+
+  wakeup_reason = esp_sleep_get_wakeup_cause();
+
+  switch (wakeup_reason) {
+    case ESP_SLEEP_WAKEUP_EXT0: Serial.println("Wakeup caused by external signal using RTC_IO"); break;
+    case ESP_SLEEP_WAKEUP_EXT1: Serial.println("Wakeup caused by external signal using RTC_CNTL"); break;
+    case ESP_SLEEP_WAKEUP_TIMER: Serial.println("Wakeup caused by timer"); break;
+    case ESP_SLEEP_WAKEUP_TOUCHPAD: Serial.println("Wakeup caused by touchpad"); break;
+    case ESP_SLEEP_WAKEUP_ULP: Serial.println("Wakeup caused by ULP program"); break;
+    default: Serial.printf("Wakeup was not caused by deep sleep: %d\n", wakeup_reason); break;
   }
 }
