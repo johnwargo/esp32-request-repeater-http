@@ -44,6 +44,7 @@ void setup() {
   } else {
     Serial.printf("Sketch restarted %d times\n", restartCounter);
   }
+  displayWakupReason();
 
   // Check to make sure we have Wi-Fi credentials
   // before trying to use them
@@ -57,7 +58,6 @@ void setup() {
   Serial.println("Waiting 30 seconds to allow for sketch uploads");
   delay(30000);
 
-  displayWakupReason();
   esp_sleep_enable_timer_wakeup(SLEEP_DURATION_MINUTES * minutes2Microseconds);
   if (connectToNetwork()) callRemoteHost();
   esp_deep_sleep_start();
@@ -117,7 +117,6 @@ void callRemoteHost() {
   }
   http.end();
 }
-
 
 // docs: https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/sleep_modes.html#_CPPv418esp_sleep_source_t
 void displayWakupReason() {
