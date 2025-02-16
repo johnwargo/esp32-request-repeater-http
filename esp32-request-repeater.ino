@@ -29,11 +29,8 @@ void setup() {
   Serial.begin(115200);
   delay(1000);
   Serial.println();
-
-  // TODO: only display this once, store flag in memory
   Serial.println("**************************");
   Serial.println("* ESP32 Request Repeater *");
-  Serial.println("* By John M. Wargo       *");
   Serial.println("**************************");
 
   // Check to make sure we have Wi-Fi credentials
