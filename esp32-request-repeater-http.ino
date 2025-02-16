@@ -91,8 +91,6 @@ bool connectToNetwork() {
 
 void callRemoteHost() {
   Serial.printf("Connecting to %s\n", REMOTE_HOST);
-  // Serial.println(REMOTE_HOST);
-
   http.begin(REMOTE_HOST);
   int httpCode = http.GET();
   if (httpCode > 0) {  // httpCode will be negative on error
