@@ -30,6 +30,7 @@ void setup() {
   delay(1000);
   Serial.println();
 
+  // TODO: only display this once, store flag in memory
   Serial.println("**************************");
   Serial.println("* ESP32 Request Repeater *");
   Serial.println("* By John M. Wargo       *");
@@ -43,13 +44,13 @@ void setup() {
   }
 
   print_wakeup_reason();
-  // set the sleep duration
   esp_sleep_enable_timer_wakeup(SLEEP_DURATION);
+  if (connectToNetwork()) callRemoteHost();
+  esp_deep_sleep_start();
 }
 
 void loop() {
-  if (connectToNetwork()) callRemoteHost();
-  esp_deep_sleep_start();
+  // nothing to do here, its all done in setup()
 }
 
 bool connectToNetwork() {
@@ -63,13 +64,12 @@ bool connectToNetwork() {
     delay(500);
     Serial.print(".");
     counter += 1;
-
-    // Check the max counter
+    // Check the max counter, should we keep
+    // trying to connect to Wi-Fi?
     if (counter > WIFI_CONNECT_LIMIT) {
-      Serial.println("Unable to connect to network");
+      Serial.println("Unable to connect to network, aborting");
       return false;
     }
-    // update the monitor if we're still connecting
     if (counter > 25) {
       counter = 0;
       Serial.println();
@@ -87,10 +87,9 @@ void callRemoteHost() {
   Serial.print("Connecting to ");
   Serial.println(REMOTE_HOST);
 
-  http.begin(REMOTE_HOST);  //HTTP
+  http.begin(REMOTE_HOST);
   int httpCode = http.GET();
-  // httpCode will be negative on error
-  if (httpCode > 0) {
+  if (httpCode > 0) {  // httpCode will be negative on error
     Serial.printf("Response: %d\n", httpCode);
     if (httpCode == HTTP_CODE_OK) {
       Serial.println("Success");
@@ -105,16 +104,15 @@ void callRemoteHost() {
 
 // From https://randomnerdtutorials.com/esp32-deep-sleep-arduino-ide-wake-up-sources/
 void print_wakeup_reason() {
-  esp_sleep_wakeup_cause_t wakeup_reason;
+  esp_sleep_wakeup_cause_t wakeupReason;
 
-  wakeup_reason = esp_sleep_get_wakeup_cause();
-
-  switch (wakeup_reason) {
+  wakeupReason = esp_sleep_get_wakeup_cause();
+  switch (wakeupReason) {
     case ESP_SLEEP_WAKEUP_EXT0: Serial.println("Wakeup caused by external signal using RTC_IO"); break;
     case ESP_SLEEP_WAKEUP_EXT1: Serial.println("Wakeup caused by external signal using RTC_CNTL"); break;
     case ESP_SLEEP_WAKEUP_TIMER: Serial.println("Wakeup caused by timer"); break;
     case ESP_SLEEP_WAKEUP_TOUCHPAD: Serial.println("Wakeup caused by touchpad"); break;
     case ESP_SLEEP_WAKEUP_ULP: Serial.println("Wakeup caused by ULP program"); break;
-    default: Serial.printf("Wakeup was not caused by deep sleep: %d\n", wakeup_reason); break;
+    default: Serial.printf("Wakeup not caused by deep sleep: %d\n", wakeupReason); break;
   }
 }
