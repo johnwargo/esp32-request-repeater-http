@@ -33,9 +33,9 @@ void setup() {
   Serial.begin(115200);
   delay(1000);
   Serial.println();
-  Serial.println("**************************");
-  Serial.println("* ESP32 Request Repeater *");
-  Serial.println("**************************");
+  Serial.println("*******************************");
+  Serial.println("* ESP32 Request Repeater HTTP *");
+  Serial.println("*******************************");
 
   // Check to make sure we have Wi-Fi credentials
   // before trying to use them
