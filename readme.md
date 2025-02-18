@@ -17,7 +17,7 @@ To configure the sketch, copy the repository's `config.h.rename` to `config.h` (
 #define SLEEP_DURATION_MINUTES 1.5
 #define WIFI_SSID "MyLocalNetwork"
 #define WIFI_PASSWORD "my long and complicated wi-fi password"
-#define WIFI_CONNECT_LIMIT 30000  //miliseconds
+#define WIFI_CONNECT_LIMIT 30000  //milliseconds
 ```
 
 | Config Setting         | Description |
