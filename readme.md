@@ -2,6 +2,8 @@
 
 A simple Arduino sketch for ESP32 that makes a HTTP request to a supplied host then puts the device to sleep for a specified period before doing it again. Read a complete description of the code in [Putting an ESP32 Device to Sleep](https://johnwargo.com/posts/2025/esp32-sleep/).
 
+**Note:** You can find a TLS (HTTPS) version of this sketch in [ESP32 Request Repeater (HTTPS)](https://github.com/johnwargo/esp32-request-repeater-https).
+
 ## Background
 
 I wanted to learn how to use the power management capabilities of the ESP32 processor and this is the sketch I created to help me learn. I'd been doing a lot of work sending HTTP and HTTPS requests from an ESP32 device, so that made me think of creating a periodic requester sketch.
